@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import RecipeStore from '../../flux/stores/ReceipeStore'
+import { createRecipe, fetchBooks } from '../../flux/actions/RecipeActions'
+
 
 export class Home extends Component {
     constructor() {
@@ -9,11 +11,20 @@ export class Home extends Component {
         }
     }
 
+    componentWillMount() {
+        fetchBooks().then(books => console.log(books)).catch(error => console.log(error))
+    }
+
+    createNewRecipe() {
+        createRecipe(Date.now())
+    }
+
     render() {
         return (
             <div>
                 HELLO FROM HOME
                 <Recipes recipes={ this.state.recipes }/>
+                <button onClick={this.createNewRecipe.bind(this)}>Create</button>
             </div>
         )
     }
@@ -36,7 +47,7 @@ class Recipes extends Component {
         return (
             <div>
                 { this.props.recipes.map(recipe =>
-                    <div key={recipe.id}>
+                    <div key={ recipe.id }>
                         <div>
                             <div>Description</div>
                             <div>{ recipe.description }</div>

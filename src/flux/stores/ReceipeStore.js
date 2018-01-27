@@ -1,4 +1,5 @@
 import EventEmmiter from 'events'
+import dispatcher from '../Dispatcher'
 
 class RecipeStore extends EventEmmiter {
     constructor() {
@@ -26,7 +27,7 @@ class RecipeStore extends EventEmmiter {
         return this.recipes
     }
 
-    createTodo(description) {
+    createRecipe(description) {
         const id = new Date()
         this.recipes.push({
             id,
@@ -35,8 +36,18 @@ class RecipeStore extends EventEmmiter {
         })
         this.emit('change')
     }
+
+    handleActions(action) {
+        switch (action.type) {
+            case 'CREATE_RECIPE':
+                this.createRecipe(action.description)
+        }
+        console.log('RecipeStore recieved action')
+    }
 }
 
 const recipeStore = new RecipeStore()
+dispatcher.register(recipeStore.handleActions.bind(recipeStore))
+window.dispatcher = dispatcher
 
 export default recipeStore
