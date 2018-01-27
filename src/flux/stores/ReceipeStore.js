@@ -1,9 +1,24 @@
 import EventEmmiter from 'events'
+
 import dispatcher from '../Dispatcher'
+import { fb } from '../../utils/firebase'
+
+export const ADD_BOOK_ATTEMPT = 'Books.ADD_BOOK_ATTEMPT'
+export const ADD_BOOK_SUCCESS = 'Books.ADD_BOOK_SUCCESS'
+export const ADD_BOOK_ERROR = 'Books.ADD_BOOK_ERROR'
 
 class RecipeStore extends EventEmmiter {
     constructor() {
         super()
+        fb.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                this.user = user
+                console.log('LOGGED',user)
+            } else {
+                this.user = null
+                console.log('LOGGED out')
+            }
+        });
         this.recipes = [
             {
                 id: 34423423,
@@ -21,6 +36,8 @@ class RecipeStore extends EventEmmiter {
                 rate: 2
             }
         ]
+        this.loading = false
+        this.error = null
     }
 
     getRecipes() {
@@ -41,13 +58,25 @@ class RecipeStore extends EventEmmiter {
         switch (action.type) {
             case 'CREATE_RECIPE':
                 this.createRecipe(action.description)
+                break
+            case ADD_BOOK_ATTEMPT:
+                this.loading = true
+                break
+            case ADD_BOOK_SUCCESS:
+                this.loading = false
+                break
+            case ADD_BOOK_ERROR:
+                this.loading = false
+                this.error = action.error
+                break
+            default:
+                break
         }
-        console.log('RecipeStore recieved action')
+        console.log('Book store: ', action)
     }
 }
 
 const recipeStore = new RecipeStore()
 dispatcher.register(recipeStore.handleActions.bind(recipeStore))
-window.dispatcher = dispatcher
 
 export default recipeStore

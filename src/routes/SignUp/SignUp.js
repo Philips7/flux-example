@@ -3,17 +3,17 @@ import React, { Component } from 'react'
 import { fb } from '../../utils/firebase'
 import { postUser } from '../../firebaseActions/postUser'
 
-const signUp = (email, password) => {
-    fb.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (response) => {
-            const { uid, email } = response
-            postUser(uid, email)
-        })
-        .catch(function (error) {
-            const errorCode = error.code
-            const errorMessage = error.message
-            console.log(errorMessage)
-        })
+const signUp = async (email, password) => {
+    try {
+        await fb.auth().createUserWithEmailAndPassword(email, password)
+            .then(response => {
+                const { uid, email } = response
+                postUser(uid, email)
+            })
+        window.location.href = '/'
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export class SignUp extends Component {
@@ -36,7 +36,6 @@ export class SignUp extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        console.log(this.state.email, this.state.password)
         const { email, password } = this.state
         if (email && password) {
             signUp(email, password)
@@ -48,13 +47,27 @@ export class SignUp extends Component {
             <div>
                 <form onSubmit={ this.handleSubmit }>
                     <label>
-                        Name:
-                        <input type="text" value={ this.state.value } onChange={ this.handleEmail }/>
-                        <input type="text" value={ this.state.value } onChange={ this.handlePassword }/>
+                        Email:
+                        <input
+                            className='form-control'
+                            type="email"
+                            value={ this.state.value }
+                            onChange={ this.handleEmail }/>
                     </label>
-                    <input type="submit" value="Submit"/>
+                    <label>
+                        Password:
+                        <input
+                            className='form-control'
+                            type="password"
+                            value={ this.state.value }
+                            onChange={ this.handlePassword }/>
+                    </label>
+                    <button
+                        className='btn btn-primary'
+                        type="submit"
+                    >Sign Up
+                    </button>
                 </form>
-                <button className='btn btn-primary'>SIGN IN</button>
             </div>
         )
     }
