@@ -114,7 +114,7 @@ export class NewBook extends Component {
                             onChange={ this.handleDescription }/>
                     </label>
                     <label>
-                        Description:
+                        Photo Url:
                         <input
                             className='form-control'
                             type="text"
