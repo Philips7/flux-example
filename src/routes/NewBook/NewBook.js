@@ -23,7 +23,7 @@ export class NewBook extends Component {
     }
 
     componentWillMount() {
-        fetchBooks().then(books => console.log(books)).catch(error => console.log(error))
+        // fetchBooks().then(books => console.log(books)).catch(error => console.log(error))
     }
 
     addNewBook(book) {
