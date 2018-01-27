@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { fetchBooks, addBook } from '../../flux/actions/RecipeActions'
+import { fetchBooks, addBook } from '../../flux/actions/BooksActions'
 
 
-export class NewRecipe extends Component {
+export class NewBook extends Component {
     constructor() {
         super()
         this.state = {
@@ -79,8 +79,7 @@ export class NewRecipe extends Component {
     render() {
         return (
             <div>
-                HELLO FROM NEW RECIPE
-                { /*<RecipesList recipes={ this.state.recipes }/>*/ }
+                HELLO FROM NEW BOOK
                 <form onSubmit={ this.handleSubmit }>
                     <label>
                         Title:

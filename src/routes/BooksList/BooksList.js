@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import RecipeStore from '../../flux/stores/ReceipeStore'
 
-export class RecipesList extends Component {
+export class BooksList extends Component {
     componentWillMount() {
         RecipeStore.on('change', () => {
             this.setState({

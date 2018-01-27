@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 
-
-import { NewRecipe } from '../../routes/NewRecipe/NewRecipe'
+import { NewBook } from '../../routes/NewBook/NewBook'
+import { BooksList } from '../../routes/BooksList/BooksList'
 import { Login } from '../../routes/Login/Login'
 import { SignUp } from '../../routes/SignUp/SignUp'
 import './App.css'
@@ -13,7 +13,8 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path='/' component={ NewRecipe }/>
+                    <Route exact path='/' component={ NewBook }/>
+                    <Route exact path='/books' component={ BooksList }/>
                     <Route path='/login' component={ Login }/>
                     <Route path='/singUp' component={ SignUp }/>
                 </Switch>
